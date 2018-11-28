@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {MatDemoService} from './../mat-demo.service';
 import {PageEvent, MatPaginator} from '@angular/material';
+import { ChangeDetectorRef } from '@angular/core';
 import {DataSource} from '@angular/cdk/collections';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
@@ -9,8 +10,8 @@ import { map } from 'rxjs/operators';
 
 export class Database { // {{{
   /** Stream that emits whenever the data has been modified. If filter is applied on the data*/
-  dataChange: BehaviorSubject<Data[]> = new BehaviorSubject<Data[]>([]);
-  get data(): Data[] { return this.dataChange.value; }
+  dataChange: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  get data(): any[] { return this.dataChange.value; }
 
   constructor(data) {
     // Fill up the database .
@@ -36,7 +37,7 @@ export class MatPaginationDemoComponent implements OnInit {
   dataSource : MyDataSource;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private demoService : MatDemoService) {  }
+  constructor(private demoService : MatDemoService, private cdRef:ChangeDetectorRef) {  }
 
   ngOnInit() {
     this.demoService.getElements().subscribe(data=>{
@@ -45,6 +46,7 @@ export class MatPaginationDemoComponent implements OnInit {
       this.length = this.elements.length;
       this.database=new Database(this.elements);
       this.dataSource = new MyDataSource(this.database, this.paginator);
+      this.cdRef.detectChanges();
     });
   }
 
@@ -59,7 +61,7 @@ export class MyDataSource extends DataSource<any> {
 
   }
    /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Data[]> {
+  connect(): Observable<any[]> {
     //return Observable.of(this.dataBase);
     const displayDataChanges = [
       //Observable.of(this.dataBase),

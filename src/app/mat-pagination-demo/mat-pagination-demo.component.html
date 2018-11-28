@@ -1,7 +1,7 @@
 <h1 class="center">Pagination using Angular 7</h1>
 
 <ul class="list">
-    <li *ngFor="let element of dataSource.connect() |  async">
+    <li *ngFor="let element of dataSource?.connect() |  async">
     <app-demo-card [element]="element"></app-demo-card>
     </li>
 </ul>
