@@ -1,0 +1,9 @@
+<h1 class="center">Virtual Scroll using Angular 7</h1>
+
+<ul class="list">
+  <cdk-virtual-scroll-viewport  style="height: 500px" itemSize="90" >
+    <ng-container *cdkVirtualFor="let element of elements">
+    <app-demo-card [element]="element"></app-demo-card>
+    </ng-container>
+  </cdk-virtual-scroll-viewport>
+</ul>
